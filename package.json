@@ -1,0 +1,13 @@
+{
+    "name": "api-key-and-secret",
+    "description": "API Key and secret implementation",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+      "express": "^4.16.2"
+    },
+    "scripts": {
+      "start": "node ."
+    }
+  }
+  
