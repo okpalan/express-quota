@@ -3,11 +3,12 @@
     "description": "API Key and secret implementation",
     "version": "0.0.1",
     "private": true,
+    "main": "index",
     "dependencies": {
       "express": "^4.16.2"
     },
     "scripts": {
-      "start": "node ."
+      "start": "node ./index"
     }
   }
   
