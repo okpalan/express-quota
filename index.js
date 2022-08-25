@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var router = express.Router();
+const api= require('./api');
 
 var apiKey = 'myapikey';
 var apiSecret = 'myapisecret';
@@ -40,14 +40,14 @@ app.use(function (req, res, next) {
 // rate limit middleware
 app.use(function (req, res, next) {
   // check for rate limit header
-  if (!req.headers.hasOwnProperty('x-rate-limit-limit')) {
+  if (!req.headers.hasOwnProperty('x-rate-limit')) {
     return res.status(429).json({
       error: 'No rate limit provided'
     });
   }
 
   // verify rate limit
-  if (req.headers['x-rate-limit-limit'] !== '60') {
+  if (req.headers['x-rate-limit'] !== '60') {
     return res.status(429).json({
       error: 'Invalid rate limit'
     });
@@ -71,19 +71,10 @@ app.use(function (req, res, next) {
 });
 
 // your API routes go here
-app.use('/api', router);
-// curl -X POST -H "x-api-key: myapikey" -H "x-api-secret: myapisecret" -H "x-rate-limit-limit: 60" -H "x-rate-limit-remaining: 59" -H "Content-Type: application/json" -d '{"name": "John Doe"}' http://localhost:3000/api/users
-router.post('/users', function (req, res) {
-  res.json({
-    message: 'Hello ' + req.body.name
-  });
-})
+app.use('/api', api);
 
-router.get('/users', function (req, res) {
-  res.json({
-    message: 'Hello ' + req.query.name
-  });
-})
+// usage:
+// curl -X POST -H "x-api-key: myapikey" -H "x-api-secret: myapisecret" -H "x-rate-limit: 60" -H "x-rate-limit-remaining: 59" -H "Content-Type: application/json" -d '{"name": "John"}' http://localhost:3000/api/users
 
 
 console.log("Node server running on port 3000");
