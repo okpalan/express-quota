@@ -2,10 +2,10 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 
-var apiKey = 'YOUR_API_KEY';
-var apiSecret = 'YOUR_API_SECRET';
+var apiKey = 'myapikey';
+var apiSecret = 'myapisecret';
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // check for API key in header
   if (!req.headers.hasOwnProperty('x-api-key')) {
     return res.status(401).json({
@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
 });
 
 // rate limit middleware
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // check for rate limit header
   if (!req.headers.hasOwnProperty('x-rate-limit-limit')) {
     return res.status(429).json({
@@ -71,7 +71,20 @@ app.use(function(req, res, next) {
 });
 
 // your API routes go here
-
 app.use('/api', router);
+// curl -X POST -H "x-api-key: myapikey" -H "x-api-secret: myapisecret" -H "x-rate-limit-limit: 60" -H "x-rate-limit-remaining: 59" -H "Content-Type: application/json" -d '{"name": "John Doe"}' http://localhost:3000/api/users
+router.post('/users', function (req, res) {
+  res.json({
+    message: 'Hello ' + req.body.name
+  });
+})
 
+router.get('/users', function (req, res) {
+  res.json({
+    message: 'Hello ' + req.query.name
+  });
+})
+
+
+console.log("Node server running on port 3000");
 app.listen(3000);

@@ -5,10 +5,12 @@
     "private": true,
     "main": "index",
     "dependencies": {
-      "express": "^4.16.2"
+        "express": "^4.16.2"
     },
     "scripts": {
-      "start": "node ./index"
+        "start": "node ./index"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.19"
     }
-  }
-  
+}
